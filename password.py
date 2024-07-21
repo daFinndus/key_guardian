@@ -2,7 +2,6 @@ import secrets
 import string
 import math
 
-import alert
 from alert import AlertApp
 
 
@@ -10,11 +9,9 @@ class PasswordGenerator:
     def __init__(self):
 
         # Initialize instances
-
         self.alert = AlertApp()
 
         # Initialize important variables
-
         self.length = 15
         self.characters = string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation
         self.password = ""
@@ -43,7 +40,8 @@ class PasswordGenerator:
 
     # Function for generating a password based on the character variable
     def generate_password(self):
-        self.password = "".join(secrets.choice(self.characters) for _ in range(self.length)) if self.characters else "No characters selected."
+        self.password = "".join(secrets.choice(self.characters) for _ in
+                                range(self.length)) if self.characters else "No characters selected."
 
     # Function for analysing the strength of the password
     def check_password(self, password):
