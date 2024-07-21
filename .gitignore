@@ -1,3 +1,6 @@
 # Ignore the virtual environment
-
 venv
+
+# Ignore the IDE
+.idea
+__pycache__
