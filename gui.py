@@ -4,7 +4,7 @@ import customtkinter as ctk
 from alert import AlertApp
 from password import PasswordGenerator
 
-ctk.set_appearance_mode("System")
+ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
 
@@ -13,12 +13,11 @@ class App(ctk.CTk):
         super().__init__()
 
         # Initialize instances
-
         self.alert = AlertApp()
         self.password = PasswordGenerator()
 
         # Configure window
-        self.width = 800
+        self.width = 1000
         self.height = 600
 
         self.title("Key Guardian")
@@ -29,7 +28,7 @@ class App(ctk.CTk):
         self.sidebar = ctk.CTkFrame(
             self,
             width=200,
-            height=self.winfo_height(),
+            height=self.height,
             corner_radius=0,
         )
         self.sidebar.pack_propagate(False)
@@ -64,7 +63,6 @@ class App(ctk.CTk):
         self.appearance_text.pack(side="bottom")
 
         # Generating the elements for configuring the password
-
         self.configure_text = ctk.CTkLabel(
             self,
             text="Let's configure your password!",
@@ -79,7 +77,7 @@ class App(ctk.CTk):
         self.lowercase_button = ctk.CTkButton(
             self.frame_button,
             width=200,
-            text="Enable / Disable lowercase letters",
+            text="Toggle lowercase letters",
             font=ctk.CTkFont(size=12),
             command=lambda: self.change_characters("lowercase")
         )
@@ -88,7 +86,7 @@ class App(ctk.CTk):
         self.uppercase_button = ctk.CTkButton(
             self.frame_button,
             width=200,
-            text="Enable / Disable uppercase letters",
+            text="Toggle uppercase letters",
             font=ctk.CTkFont(size=12),
             command=lambda: self.change_characters("uppercase")
         )
@@ -97,7 +95,7 @@ class App(ctk.CTk):
         self.numbers_button = ctk.CTkButton(
             self.frame_button,
             width=200,
-            text="Enable / Disable numbers",
+            text="Toggle numbers",
             font=ctk.CTkFont(size=12),
             command=lambda: self.change_characters("numbers")
         )
@@ -106,7 +104,7 @@ class App(ctk.CTk):
         self.symbols_button = ctk.CTkButton(
             self.frame_button,
             width=200,
-            text="Enable / Disable symbols",
+            text="Toggle symbols",
             font=ctk.CTkFont(size=12),
             command=lambda: self.change_characters("symbols")
         )
@@ -126,7 +124,7 @@ class App(ctk.CTk):
             width=300,
             fg_color="green",
             corner_radius=10,
-            text="Lowercase letters are: ENABLED",
+            text="Lowercase is ENABLED",
             font=ctk.CTkFont(size=12, weight="bold")
         )
         self.configuration_lowercase_text.pack(pady=5)
@@ -136,7 +134,7 @@ class App(ctk.CTk):
             width=300,
             fg_color="green",
             corner_radius=10,
-            text="Uppercase letters are: ENABLED",
+            text="Uppercase is ENABLED",
             font=ctk.CTkFont(size=12, weight="bold")
         )
         self.configuration_uppercase_text.pack(pady=5)
@@ -146,7 +144,7 @@ class App(ctk.CTk):
             width=300,
             fg_color="green",
             corner_radius=10,
-            text="Numbers are: ENABLED",
+            text="Numbers is ENABLED",
             font=ctk.CTkFont(size=12, weight="bold")
         )
         self.configuration_numbers_text.pack(pady=5)
@@ -156,7 +154,7 @@ class App(ctk.CTk):
             width=300,
             fg_color="green",
             corner_radius=10,
-            text="Symbols are: ENABLED",
+            text="Symbols is ENABLED",
             font=ctk.CTkFont(size=12, weight="bold")
         )
         self.configuration_symbols_text.pack(pady=5)
@@ -172,18 +170,17 @@ class App(ctk.CTk):
             self,
             width=300,
             orientation="horizontal",
-            from_=1,
-            to=30,
-            number_of_steps=30,
+            from_=8,
+            to=60,
+            number_of_steps=52,
             command=self.set_password_length
         )
         self.length_slider.pack()
 
         # Generating elements for password actions
-
         self.password_frame = ctk.CTkFrame(
             self,
-            width=580,
+            width=650,
             height=40,
             corner_radius=10
         )
@@ -192,7 +189,7 @@ class App(ctk.CTk):
 
         self.check_password_button = ctk.CTkButton(
             self.password_frame,
-            width=130,
+            width=160,
             height=30,
             corner_radius=10,
             text="Check strength",
@@ -202,7 +199,7 @@ class App(ctk.CTk):
 
         self.password_entry = ctk.CTkEntry(
             self.password_frame,
-            width=290,
+            width=300,
             height=30,
             corner_radius=10,
             justify="center",
@@ -212,7 +209,7 @@ class App(ctk.CTk):
 
         self.generate_password_button = ctk.CTkButton(
             self.password_frame,
-            width=130,
+            width=160,
             height=30,
             corner_radius=10,
             text="Generate password",
@@ -223,7 +220,8 @@ class App(ctk.CTk):
         self.mainloop()
 
     # Function for changing the appearance ~ light, dark or system
-    def change_appearance(self, new_appearance_mode: str):
+    @staticmethod
+    def change_appearance(new_appearance_mode):
         ctk.set_appearance_mode(new_appearance_mode)
 
     def change_characters(self, target):
@@ -244,12 +242,12 @@ class App(ctk.CTk):
         if element:
             current_color = element.cget("fg_color")
             new_color = "red" if current_color == "green" else "green"
-            new_text = f"{target.capitalize()} : DISABLED" if current_color == "green" else f"{target.capitalize()} : ENABLED"
+            new_text = f"{target.capitalize()} is DISABLED" if current_color == "green" else f"{target.capitalize()} is ENABLED"
             element.configure(fg_color=new_color)
             element.configure(text=new_text)
 
     # Function for setting the length of the password
-    def set_password_length(self, value: int):
+    def set_password_length(self, value):
         self.length_text.configure(text=f"Set your password length ({int(value):02d})")
         self.password.change_length(int(value))
 
